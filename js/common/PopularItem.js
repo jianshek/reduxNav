@@ -6,7 +6,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default class PopularItem extends Component {
 
     render() {
-        const { item } = this.props;//获取数据
+        const { projectModel } = this.props;//获取数据
+        const item = projectModel;
         if (!item || !item.owner) return null;
         //搜藏按钮
         let favouriteButton = <TouchableOpacity
