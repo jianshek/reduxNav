@@ -12,6 +12,7 @@ import NavigationUtil from '../navigator/NavigationUtil'
 import { createMaterialTopTabNavigator, createAppContainer } from "react-navigation";
 import { connect } from 'react-redux'
 import actions from '../action/index'
+import PopularItem from '../common/PopularItem'
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
@@ -89,11 +90,12 @@ class PopularTab extends Component {
 
   renderItem(data) {
     const item = data.item;
-    return <View style={{ marginBottom: 30 }}>
-      <Text style={{ backgroundColor: 'red' }}>
-        {JSON.stringify(item)}
-      </Text>
-    </View>
+    return <PopularItem
+      item={item}
+      onSelect={() => {
+
+      }}
+    />
   }
 
   render() {
@@ -110,7 +112,7 @@ class PopularTab extends Component {
         <FlatList
           data={store.items}
           renderItem={data => this.renderItem(data)}
-          keyExtractor={(item,index) => index.toString()}
+          keyExtractor={(item, index) => index.toString()}
           refreshControl={
             <RefreshControl
               title={'loading'}
@@ -118,7 +120,7 @@ class PopularTab extends Component {
               colors={['red']}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData()}
-              tintColor={'red'} 
+              tintColor={'red'}
             />
           }
         />
@@ -139,8 +141,6 @@ const PopularTabPage = connect(mapStateToProps, mapDispatchToProps)(PopularTab)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

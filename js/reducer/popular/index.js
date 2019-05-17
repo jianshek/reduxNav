@@ -22,7 +22,7 @@ export default function onAction(state = defaultState, action) {
             return {
                 ...state,   //原来的state
                 [action.storeName]: {
-                    ...[action.storeName],
+                    ...state[action.storeName],
                     isLoading: true //开始刷新,loading为true
                 }
             };
@@ -30,7 +30,7 @@ export default function onAction(state = defaultState, action) {
             return {
                 ...state,  
                 [action.storeName]: {
-                    ...[action.storeName],
+                    ...state[action.storeName],
                     items: action.items, //数据
                     isLoading: false //刷新成功后返回false
                 }
@@ -39,7 +39,7 @@ export default function onAction(state = defaultState, action) {
             return {
                 ...state,   
                 [action.storeName]: {
-                    ...[action.storeName],
+                    ...state[action.storeName],
                     isLoading: false
                 }
             };
