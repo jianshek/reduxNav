@@ -14,10 +14,12 @@ import { connect } from 'react-redux'
 import actions from '../action/index'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
+import NavigationBar from '../common/NavigationBar'
 
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
+const THEME_COLOR='#678'
 
 
 type Props = {};
@@ -43,6 +45,17 @@ export default class PopularView extends Component<Props> {
   }
 
   render() {
+
+    //状态栏和navigationbar
+    let statusBar = {
+      backgroundColor: THEME_COLOR,
+      barStyle: 'light-content',
+    };
+    let navigationBar = <NavigationBar
+      title={'最热'}
+      statusBar={statusBar}
+      style={{backgroundColor:THEME_COLOR}}
+    />;
     //上方tab
     const TabNavigator = createAppContainer(createMaterialTopTabNavigator(
       this._genTabs(), {
@@ -60,7 +73,8 @@ export default class PopularView extends Component<Props> {
 
     ));
     return (
-      <View style={{ flex: 1, marginTop: 30 }}>
+      <View style={{ flex: 1}}>
+        {navigationBar}
         <TabNavigator />
       </View>
     );
@@ -85,7 +99,7 @@ class PopularTab extends Component {
     const store = this._store();
     const url = this.genFetchUrl(this.storeName);
     if (loadMore) {
-      onLoadMorePopular(this.storeName, store.pageIndex+1, pageSize, store.items, callback => {
+      onLoadMorePopular(this.storeName, store.pageIndex + 1, pageSize, store.items, callback => {
         this.refs.toast.show('没有更多数据了');
       })
     } else {
@@ -117,7 +131,7 @@ class PopularTab extends Component {
     return URL + key + QUERY_STR;
   }
 
-  
+
   renderItem(data) {
     const item = data.item;
     return <PopularItem
@@ -144,7 +158,7 @@ class PopularTab extends Component {
     return (
       <View style={styles.container}>
         <FlatList
-          data={store.projectModels}         
+          data={store.projectModels}
           renderItem={data => this.renderItem(data)}
           keyExtractor={(item, index) => index.toString()}
           refreshControl={
