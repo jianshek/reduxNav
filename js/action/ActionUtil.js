@@ -19,7 +19,7 @@ import ProjectModel from "../model/ProjectModel";
  * @param params 其他参数
  */
 
-export function handleData(actionType, dispatch, storeName, data, pageSize, favoriteDao,params) {
+export function handleData(actionType, dispatch, storeName, data, pageSize) {
     let fixItems = [];
     if (data && data.data) {
         if (Array.isArray(data.data)) {
@@ -28,14 +28,12 @@ export function handleData(actionType, dispatch, storeName, data, pageSize, favo
             fixItems = data.data.items;
         }
     }
-    //第一次要加载的数据
-    let showItems = pageSize > fixItems.length ? fixItems : fixItems.slice(0, pageSize);
         dispatch({
             type: actionType,
             items: fixItems,
+            projectModels: pageSize > fixItems.length ? fixItems : fixItems.slice(0, pageSize),//第一次加载数据
             storeName,
             pageIndex: 1,
-            ...params
         })
 
 }

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.0",
+    "GitHubTrending": "^3.0.1",
     "react": "16.8.3",
     "react-native": "0.59.8",
     "react-native-easy-toast": "^1.2.0",

@@ -928,6 +928,11 @@
   resolved "https://registry.npm.taobao.org/@types/yargs/download/@types/yargs-12.0.12.tgz#45dd1d0638e8c8f153e87d296907659296873916"
   integrity sha1-Rd0dBjjoyPFT6H0paQdlkpaHORY=
 
+GitHubTrending@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/GitHubTrending/download/GitHubTrending-3.0.1.tgz#61d81a481b2af53f69c0b499e92dc27135541e88"
+  integrity sha1-YdgaSBsq9T9pwLSZ6S3CcTVUHog=
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/abab/download/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
