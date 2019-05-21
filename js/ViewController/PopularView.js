@@ -64,7 +64,8 @@ export default class PopularView extends Component<Props> {
           upperCaseLabel: false, //默认文字大写
           scrollEnabled: true, //可滚动
           style: {
-            backgroundColor: '#678'
+            backgroundColor: '#678',
+            height:30,      //开启scrollEnabled后再Android上初次加载时闪烁问题,给个固定高度
           },
           indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
           labelStyle: styles.labelStyle,   //tab上的文字属性
@@ -220,7 +221,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   tabStyle: {
-    minWidth: 60,
+    // minWidth: 60,  //如果设置最小值,Android会有问题
+    padding:0,
   },
   indStyle: {
     height: 2,
@@ -228,8 +230,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 15,
-    marginTop: 5,
-    marginBottom: 5,
+    margin:0,
   },
   indicatorStyle: {
     height: 2,

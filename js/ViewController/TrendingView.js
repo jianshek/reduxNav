@@ -15,6 +15,7 @@ import actions from '../action/index'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
 import NavigationBar from '../common/NavigationBar'
+import TrendingItem from '../common/TrendingItem'
 
 
 const URL = 'https://github.com/trending/';
@@ -63,7 +64,8 @@ export default class TrendingView extends Component<Props> {
           upperCaseLabel: false, //默认文字大写
           scrollEnabled: true, //可滚动
           style: {
-            backgroundColor: '#678'
+            backgroundColor: '#678',
+            height:30,
           },
           indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
           labelStyle: styles.labelStyle,   //tab上的文字属性
@@ -134,7 +136,7 @@ class TrendingTab extends Component {
 
   renderItem(data) {
     const item = data.item;
-    return <PopularItem
+    return <TrendingItem
       projectModel={item}
       onSelect={(callBack) => {
 
@@ -220,7 +222,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   tabStyle: {
-    minWidth: 60,
+    // minWidth: 60, 
+    padding:0,
   },
   indStyle: {
     height: 2,
@@ -228,8 +231,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 15,
-    marginTop: 5,
-    marginBottom: 5,
+    margin:0,
   },
   indicatorStyle: {
     height: 2,
