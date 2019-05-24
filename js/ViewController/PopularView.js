@@ -145,6 +145,7 @@ class PopularTab extends Component {
           projectModel: item,
         }, 'DetailView')
       }}
+      onFavorite={(item, isFavorite)=>{console.log('点击收藏的回调')}}
     />
   }
 
