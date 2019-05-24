@@ -18,6 +18,7 @@ import NavigationBar from '../common/NavigationBar'
 import TrendingItem from '../common/TrendingItem'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'  //今天,本周,本月
+import { FLAG_STORAGE } from "../expand/dao/DataStore";
 
 
 
@@ -210,7 +211,10 @@ class TrendingTab extends Component {
     return <TrendingItem
       projectModel={item}
       onSelect={(callBack) => {
-
+        NavigationUtil.goPage({
+          projectModel: item,
+          flag: FLAG_STORAGE.flag_trending,    
+      }, 'DetailView')
       }}
     />
   }

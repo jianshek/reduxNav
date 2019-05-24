@@ -15,11 +15,13 @@ import actions from '../action/index'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
 import NavigationBar from '../common/NavigationBar'
+import { FLAG_STORAGE } from "../expand/dao/DataStore";
+
 
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
-const THEME_COLOR='#678'
+const THEME_COLOR = '#678'
 
 
 type Props = {};
@@ -54,7 +56,7 @@ export default class PopularView extends Component<Props> {
     let navigationBar = <NavigationBar
       title={'最热'}
       statusBar={statusBar}
-      style={{backgroundColor:THEME_COLOR}}
+      style={{ backgroundColor: THEME_COLOR }}
     />;
     //上方tab
     const TabNavigator = createAppContainer(createMaterialTopTabNavigator(
@@ -65,7 +67,7 @@ export default class PopularView extends Component<Props> {
           scrollEnabled: true, //可滚动
           style: {
             backgroundColor: '#678',
-            height:30,      //开启scrollEnabled后再Android上初次加载时闪烁问题,给个固定高度
+            height: 30,      //开启scrollEnabled后再Android上初次加载时闪烁问题,给个固定高度
           },
           indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
           labelStyle: styles.labelStyle,   //tab上的文字属性
@@ -74,7 +76,7 @@ export default class PopularView extends Component<Props> {
 
     ));
     return (
-      <View style={{ flex: 1}}>
+      <View style={{ flex: 1 }}>
         {navigationBar}
         <TabNavigator />
       </View>
@@ -138,7 +140,10 @@ class PopularTab extends Component {
     return <PopularItem
       projectModel={item}
       onSelect={(callBack) => {
-
+        NavigationUtil.goPage({
+          flag: FLAG_STORAGE.flag_popular,
+          projectModel: item,
+        }, 'DetailView')
       }}
     />
   }
@@ -222,7 +227,7 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     // minWidth: 60,  //如果设置最小值,Android会有问题
-    padding:0,
+    padding: 0,
   },
   indStyle: {
     height: 2,
@@ -230,7 +235,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 15,
-    margin:0,
+    margin: 0,
   },
   indicatorStyle: {
     height: 2,

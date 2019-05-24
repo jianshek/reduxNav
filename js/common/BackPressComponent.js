@@ -11,7 +11,7 @@ export default class BackPressComponent {
     }
 
     componentDidMount() {
-        //添加安卓物理按键监听        
+        //添加安卓物理按键监听,如果按了返回键,调用_hardwareBackPress       
         if (this.props.backPress) BackHandler.addEventListener('hardwareBackPress', this._hardwareBackPress);
     }
 
@@ -21,6 +21,6 @@ export default class BackPressComponent {
 
     //物理按键按下时的回调
     onHardwareBackPress(e) {
-        return this.props.backPress(e);
+        return this.props.backPress(e); //返回传进来的backPress,ye就是让原来的页面自行处理
     }
 }
