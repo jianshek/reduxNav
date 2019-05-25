@@ -19,12 +19,15 @@ import TrendingItem from '../common/TrendingItem'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'  //今天,本周,本月
 import { FLAG_STORAGE } from "../expand/dao/DataStore";
+import FavoriteDao from "../expand/dao/FavoriteDao";
+import FavoriteUtil from "../util/FavoriteUtil";
 
 
 
 const EVENT_TYPE_TIME_SPAN_CHANGE = "EVENT_TYPE_TIME_SPAN_CHANGE";  //事件名
 const URL = 'https://github.com/trending/';
 const THEME_COLOR = '#678'
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 
 
 type Props = {};
@@ -173,11 +176,11 @@ class TrendingTab extends Component {
     const url = this.genFetchUrl(this.storeName);
     if (loadMore) {
       const { onRefreshTrending, onLoadMoreTrending } = this.props;
-      onLoadMoreTrending(this.storeName, store.pageIndex + 1, pageSize, store.items, callback => {
+      onLoadMoreTrending(this.storeName, store.pageIndex + 1, pageSize, store.items, favoriteDao,callback => {
         this.refs.toast.show('没有更多数据了');
       })
     } else {
-      onRefreshTrending(this.storeName, url, pageSize);
+      onRefreshTrending(this.storeName, url, pageSize,favoriteDao);
     }
 
   }
@@ -216,6 +219,7 @@ class TrendingTab extends Component {
           flag: FLAG_STORAGE.flag_trending,    
       }, 'DetailView')
       }}
+      onFavorite={(item, isFavorite)=>FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}
     />
   }
 
@@ -276,8 +280,8 @@ const mapStateToProps = state => ({
   trending: state.trending  //从reducer文件夹的index.js文件中获取对应的state给props
 });
 const mapDispatchToProps = dispatch => ({
-  onRefreshTrending: (storeName, url, pageSize) => dispatch(actions.onRefreshTrending(storeName, url, pageSize)),
-  onLoadMoreTrending: (storeName, pageIndex, pageSize, items, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, callBack)),
+  onRefreshTrending: (storeName, url, pageSize,favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize,favoriteDao)),
+  onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao,callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao,callBack)),
 });
 const TrendingTabPage = connect(mapStateToProps, mapDispatchToProps)(TrendingTab)
 

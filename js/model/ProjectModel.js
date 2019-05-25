@@ -1,7 +1,7 @@
 /**
- * 带收藏状态的item
- * @param item
- * @param isFavorite
+ * 函数类,带收藏状态的item
+ * @param item          原始数据
+ * @param isFavorite    是否收藏
  * @constructor
  */
 

@@ -8,23 +8,8 @@ export default class PopularItem extends BaseItem {
 
     render() {
         const { projectModel } = this.props;//获取数据
-        const item = projectModel;
+        const {item} = projectModel;
         if (!item || !item.owner) return null;
-        //搜藏按钮
-        // let favouriteButton = <TouchableOpacity
-        //     style={{ padding: 6 }} //padding:增加点击的范围
-        //     onPress={() => {
-
-        //     }}
-        //     underlayColor={'transparent'}  //按下颜色,透明
-        // >
-        //     <FontAwesome
-        //         name={'star-o'}
-        //         size={26}
-        //         style={{ color: 'red' }}
-        //     />
-
-        // </TouchableOpacity>
         return (
             <TouchableOpacity
                 onPress={this.props.onSelect} //回调函数
@@ -47,7 +32,6 @@ export default class PopularItem extends BaseItem {
                             <Text>Start:</Text>
                             <Text>{item.stargazers_count}</Text>
                         </View>
-                        {/* {favouriteButton} */}
                         {this._favoriteIcon()}
                     </View>
                 </View>

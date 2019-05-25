@@ -11,13 +11,13 @@ import {_projectModels, handleData} from '../ActionUtil'
  * @param favoriteDao
  * @returns {function(*=)}
  */
-export function onRefreshTrending(storeName, url, pageSize) {
+export function onRefreshTrending(storeName, url, pageSize,favoriteDao) {
     return dispatch => {
         dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
         let dataStore = new DataStore();
         dataStore.fetchData(url, FLAG_STORAGE.flag_trending)//异步action与数据流
             .then(data => {
-                handleData(Types.TRENDING_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
+                handleData(Types.TRENDING_REFRESH_SUCCESS, dispatch, storeName, data, pageSize,favoriteDao)
             })
             .catch(error => {
                 console.log(error);

@@ -3,30 +3,17 @@ import React,{ Component } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native'
 import HTMLView from 'react-native-htmlview';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import BaseItem from "./BaseItem";
 
 
-export default class TrendingItem extends Component {
+
+export default class TrendingItem extends BaseItem {
 
     render() {
         const { projectModel } = this.props;//获取数据
-        const item = projectModel;
+        const {item} = projectModel;
         if (!item ) return null;
         let description = '<p>' + item.description + '</p>';//description有标清Text标签显示不出来
-        //搜藏按钮
-        let favouriteButton = <TouchableOpacity
-            style={{ padding: 6 }} //padding:增加点击的范围
-            onPress={() => {
-
-            }}
-            underlayColor={'transparent'}  //按下颜色,透明
-        >
-            <FontAwesome
-                name={'star-o'}
-                size={26}
-                style={{ color: 'red' }}
-            />
-
-        </TouchableOpacity>
 
         return (
 
@@ -61,7 +48,7 @@ export default class TrendingItem extends Component {
                             })}
 
                         </View>
-                        {favouriteButton}
+                        {this._favoriteIcon()}
                     </View>
                 </View>
 
