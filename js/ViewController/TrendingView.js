@@ -216,7 +216,8 @@ class TrendingTab extends Component {
       onSelect={(callBack) => {
         NavigationUtil.goPage({
           projectModel: item,
-          flag: FLAG_STORAGE.flag_trending,    
+          flag: FLAG_STORAGE.flag_trending,
+          callBack      //baseItem的setFavoriteState函数
       }, 'DetailView')
       }}
       onFavorite={(item, isFavorite)=>FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}

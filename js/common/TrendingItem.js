@@ -18,7 +18,8 @@ export default class TrendingItem extends BaseItem {
         return (
 
             <TouchableOpacity
-                onPress={this.props.onSelect} //回调函数
+                // onPress={this.props.onSelect} //回调函数
+                onPress={()=>this.onItemClick()}    //执行baseItem里面的方法
             >
                 <View style={styles.cell_container}>
                     <Text style={styles.title}>

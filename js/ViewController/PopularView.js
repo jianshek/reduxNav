@@ -147,6 +147,7 @@ class PopularTab extends Component {
         NavigationUtil.goPage({
           flag: FLAG_STORAGE.flag_popular,
           projectModel: item,
+          callBack,     //baseItem的setFavoriteState函数
         }, 'DetailView')
       }}
       onFavorite={(item, isFavorite)=>FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_popular)}
