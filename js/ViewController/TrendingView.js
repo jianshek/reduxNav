@@ -21,6 +21,8 @@ import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'  //今天,�
 import { FLAG_STORAGE } from "../expand/dao/DataStore";
 import FavoriteDao from "../expand/dao/FavoriteDao";
 import FavoriteUtil from "../util/FavoriteUtil";
+import EventBus from "react-native-event-bus";
+import EventTypes from "../util/EventTypes";
 
 
 
@@ -152,6 +154,7 @@ class TrendingTab extends Component {
     const { tabLabel, timeSpan } = this.props;
     this.storeName = tabLabel;  //topnavbar的哪个item
     this.timeSpan = timeSpan;   //trendingDialog的哪个item
+    this.isFavoriteChanged = false;//是否有收藏状态的改变
   }
 
   componentDidMount() {
@@ -161,6 +164,14 @@ class TrendingTab extends Component {
       this.timeSpan = timeSpan;
       this.loadData();
     });
+    EventBus.getInstance().addListener(EventTypes.favoriteChanged_trending, this.favoriteChangeListener = () => {
+      this.isFavoriteChanged = true;
+    });
+    EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.bottomTabSelectListener = (data) => {
+      if (data.to === 1 && this.isFavoriteChanged) {
+        this.loadData(null, true);
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -168,19 +179,25 @@ class TrendingTab extends Component {
     if (this.timeSpanChangeListener) {
       this.timeSpanChangeListener.remove();   //移除事件监听
     }
+    EventBus.getInstance().removeListener(this.favoriteChangeListener);
+    EventBus.getInstance().removeListener(this.bottomTabSelectListener);
   }
 
-  loadData(loadMore) {
-    const { onRefreshTrending, onLoadMoreTrending } = this.props;
+  loadData(loadMore,refreshFavorite) {
+    const { onRefreshTrending, onLoadMoreTrending, onFlushTrendingFavorite } = this.props;
     const store = this._store();
     const url = this.genFetchUrl(this.storeName);
     if (loadMore) {
       const { onRefreshTrending, onLoadMoreTrending } = this.props;
-      onLoadMoreTrending(this.storeName, store.pageIndex + 1, pageSize, store.items, favoriteDao,callback => {
+      onLoadMoreTrending(this.storeName, store.pageIndex + 1, pageSize, store.items, favoriteDao, callback => {
         this.refs.toast.show('没有更多数据了');
       })
-    } else {
-      onRefreshTrending(this.storeName, url, pageSize,favoriteDao);
+    } else if (refreshFavorite) {
+      onFlushTrendingFavorite(this.storeName, store.pageIndex, pageSize, store.items, favoriteDao);
+      this.isFavoriteChanged = false;
+    }
+    else {
+      onRefreshTrending(this.storeName, url, pageSize, favoriteDao);
     }
 
   }
@@ -218,9 +235,9 @@ class TrendingTab extends Component {
           projectModel: item,
           flag: FLAG_STORAGE.flag_trending,
           callBack      //baseItem的setFavoriteState函数
-      }, 'DetailView')
+        }, 'DetailView')
       }}
-      onFavorite={(item, isFavorite)=>FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}
+      onFavorite={(item, isFavorite) => FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)}
     />
   }
 
@@ -281,8 +298,9 @@ const mapStateToProps = state => ({
   trending: state.trending  //从reducer文件夹的index.js文件中获取对应的state给props
 });
 const mapDispatchToProps = dispatch => ({
-  onRefreshTrending: (storeName, url, pageSize,favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize,favoriteDao)),
-  onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao,callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao,callBack)),
+  onRefreshTrending: (storeName, url, pageSize, favoriteDao) => dispatch(actions.onRefreshTrending(storeName, url, pageSize, favoriteDao)),
+  onLoadMoreTrending: (storeName, pageIndex, pageSize, items, favoriteDao, callBack) => dispatch(actions.onLoadMoreTrending(storeName, pageIndex, pageSize, items, favoriteDao, callBack)),
+  onFlushTrendingFavorite: (storeName, pageIndex, pageSize, items, favoriteDao) => dispatch(actions.onFlushTrendingFavorite(storeName, pageIndex, pageSize, items, favoriteDao)),
 });
 const TrendingTabPage = connect(mapStateToProps, mapDispatchToProps)(TrendingTab)
 

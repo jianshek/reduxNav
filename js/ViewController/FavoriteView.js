@@ -11,6 +11,8 @@ import FavoriteDao from "../expand/dao/FavoriteDao";
 import { FLAG_STORAGE } from "../expand/dao/DataStore";
 import FavoriteUtil from "../util/FavoriteUtil";
 import TrendingItem from "../common/TrendingItem";
+import EventBus from "react-native-event-bus";
+import EventTypes from "../util/EventTypes";
 
 const THEME_COLOR = '#678'
 
@@ -79,6 +81,15 @@ class FavoriteTab extends Component<Props> {
 
   componentDidMount() {
     this.loadData(true);
+    EventBus.getInstance().addListener(EventTypes.bottom_tab_select, this.listener = data => {
+      if (data.to === 2) {    //点击了第2个bottomtabbar
+        this.loadData(false);   //不显示菊花
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    EventBus.getInstance().removeListener(this.listener);
   }
 
   loadData(isShowLoading) {
@@ -104,8 +115,12 @@ class FavoriteTab extends Component<Props> {
   }
 
   onFavorite(item, isFavorite) {
-    FavoriteUtil.onFavorite(this.favoriteDao, item, isFavorite, this.props.flag);
-
+    FavoriteUtil.onFavorite(this.favoriteDao, item, isFavorite, this.props.flag); //更改本地数据
+    if (this.storeName === FLAG_STORAGE.flag_popular) {  
+      EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular); //发送通知,最热模块收藏状态有改变
+    } else {
+      EventBus.getInstance().fireEvent(EventTypes.favoriteChanged_trending);  //发送通知,趋势模块收藏状态有改变
+    }
   }
 
   renderItem(data) {

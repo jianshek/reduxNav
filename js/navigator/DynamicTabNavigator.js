@@ -9,6 +9,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { BottomTabBar } from 'react-navigation-tabs';
+import EventTypes from '../util/EventTypes';
+import EventBus from 'react-native-event-bus'
+
 
 
 
@@ -79,7 +82,7 @@ class DynamicTabNavigator extends Component<Props> {
     }
 
     _tabNavigator() {
-        if(this.Tabs){
+        if (this.Tabs) {
             //如果tabbar存在就不再次创建
             return this.Tabs;
         }
@@ -88,7 +91,7 @@ class DynamicTabNavigator extends Component<Props> {
         PopularView.navigationOptions.tabBarLabel = '最热';//动态配置Tabbar属性
         return this.Tabs = createAppContainer(createBottomTabNavigator(tabs, {
             //tabbar组件,修改它可以改变tabbar样式
-            tabBarComponent: props => { 
+            tabBarComponent: props => {
                 //将theme传给TabBarComponent
                 return <TabBarComponent theme={this.props.theme} {...props} />
             }
@@ -99,7 +102,14 @@ class DynamicTabNavigator extends Component<Props> {
     render() {
 
         const Tab = this._tabNavigator();
-        return <Tab />
+        return <Tab
+            onNavigationStateChange={(prevState, newState, action) => { //点击了tabbar会触发这个函数
+                EventBus.getInstance().fireEvent(EventTypes.bottom_tab_select, {    //发送底部tab切换的事件
+                    from: prevState.index,  //上一次点击的tabbar
+                    to: newState.index      //这次点击的tabbar
+                })
+            }}
+        />
     }
 }
 
@@ -123,9 +133,9 @@ class TabBarComponent extends Component {
 
         return <BottomTabBar    //navigation组件tabbar
             {...this.props}
-                //navigation传过来的参数
+            //navigation传过来的参数
             // activeTintColor={this.theme.tintColor || this.props.activeTintColor}
-                //redux传过来的参数
+            //redux传过来的参数
             activeTintColor={this.props.theme}
         />
     }

@@ -32,10 +32,10 @@ export default function onAction(state = defaultState, action) {
                 ...state,
                 [action.storeName]: {
                     ...state[action.storeName],
-                    items:action.items,                 //所有数据
+                    items: action.items,                 //所有数据
                     projectModels: action.projectModels, //此次要显示的数据
                     isLoading: false,                       //刷新成功后返回false
-                    hideLoadingMore: false,                
+                    hideLoadingMore: false,
                     pageIndex: action.pageIndex
                 }
             };
@@ -54,7 +54,7 @@ export default function onAction(state = defaultState, action) {
                     ...state[action.storeName],
                     projectModels: action.projectModels,    //数据
                     hideLoadingMore: false,                 //隐藏下方菊花
-                    pageIndex: action.pageIndex,        
+                    pageIndex: action.pageIndex,
                 }
             };
         case Types.POPULAR_LOAD_MORE_FAIL:
@@ -64,6 +64,14 @@ export default function onAction(state = defaultState, action) {
                     ...state[action.storeName],
                     hideLoadingMore: true,
                     pageIndex: action.pageIndex,
+                }
+            };
+        case Types.FLUSH_POPULAR_FAVORITE://刷新收藏状态
+            return {
+                ...state,
+                [action.storeName]: {
+                    ...state[action.storeName],
+                    projectModels: action.projectModels,
                 }
             };
         default:

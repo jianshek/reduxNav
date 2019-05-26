@@ -12,7 +12,7 @@ import ProjectModel from "../../model/ProjectModel";
  */
 export function onLoadFavoriteData(flag, isShowLoading) {
     return dispatch => {
-        if (isShowLoading) {
+        if (isShowLoading) {    //如果不让显示菊花,就不往reducer传递了
             dispatch({type: Types.FAVORITE_LOAD_DATA, storeName: flag});
         }
         new FavoriteDao(flag).getAllItems()
