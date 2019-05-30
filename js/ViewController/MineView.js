@@ -25,7 +25,14 @@ export default class MineView extends Component<Props> {
       case MORE_MENU.Tutorial:
         RouteName = 'WebviewView';
         params.title = '教程';
-        params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+        // params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+        params.url = 'https://www.baidu.com'
+        break;
+      case MORE_MENU.About:
+        RouteName = 'AboutView';
+        break;
+      case MORE_MENU.About_Author:
+        RouteName = 'AboutMeView';
         break;
     }
     if (RouteName) {
@@ -58,7 +65,7 @@ export default class MineView extends Component<Props> {
         <ScrollView>
           <TouchableOpacity
             style={styles.item}
-            onPress={() => this.onClick(MORE_MENU.About)}
+            onPress={() => this.onClick(MORE_MENU.About)} //跳转到 关于 页面
           >
             <View style={styles.about_left}>
               <Ionicons

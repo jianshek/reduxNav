@@ -1,11 +1,13 @@
-import {createStackNavigator, createSwitchNavigator, createAppContainer} from "react-navigation";
+import { createStackNavigator, createSwitchNavigator, createAppContainer } from "react-navigation";
 import WelcomeView from '../ViewController/WelcomeView'
 import NavTab from '../ViewController/NavTab'
 import DetailView from '../ViewController/DetailView'
-import {connect} from 'react-redux';
-import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
-import {createReduxContainer} from 'react-navigation-redux-helpers'
+import { connect } from 'react-redux';
+import { createReactNavigationReduxMiddleware, reduxifyNavigator } from 'react-navigation-redux-helpers';
+import { createReduxContainer } from 'react-navigation-redux-helpers'
 import WebviewView from '../ViewController/WebviewView'
+import AboutView from '../ViewController/about/AboutView'
+import AboutMeView from '../ViewController/about/AboutMeView'
 
 
 export const rootCom = 'Init';//设置根路由
@@ -32,26 +34,38 @@ const MainNavigator = createStackNavigator({
             header: null,
         }
     },
-    WebviewView:{
-        screen:WebviewView,
-        navigationOptions:{
-            header:null,
+    WebviewView: {
+        screen: WebviewView,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    AboutView: {
+        screen: AboutView,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    AboutMeView: {
+        screen: AboutMeView,
+        navigationOptions: {
+            header: null,
         }
     }
 }, {
-    defaultNavigationOptions: {
-        header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
-    }
-});
+        defaultNavigationOptions: {
+            header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+        }
+    });
 
 export const RootNavigator = createAppContainer(createSwitchNavigator({ //设置最外层路由
     Init: InitNavigator,    //rootCom
     Main: MainNavigator,    //resetToHomPage
 }, {
-    navigationOptions: {
-        header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
-    }
-}));
+        navigationOptions: {
+            header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+        }
+    }));
 
 /**
  * 1.初始化react-navigation与redux的中间件，
@@ -64,7 +78,7 @@ export const RootNavigator = createAppContainer(createSwitchNavigator({ //设置
 export const middleware = createReactNavigationReduxMiddleware(
     state => state.nav,
     'root'
-    
+
 );
 
 /**
