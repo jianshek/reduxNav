@@ -5,6 +5,7 @@ import DetailView from '../ViewController/DetailView'
 import {connect} from 'react-redux';
 import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
 import {createReduxContainer} from 'react-navigation-redux-helpers'
+import WebviewView from '../ViewController/WebviewView'
 
 
 export const rootCom = 'Init';//设置根路由
@@ -31,6 +32,12 @@ const MainNavigator = createStackNavigator({
             header: null,
         }
     },
+    WebviewView:{
+        screen:WebviewView,
+        navigationOptions:{
+            header:null,
+        }
+    }
 }, {
     defaultNavigationOptions: {
         header: null,// 可以通过将header设为null 来禁用StackNavigator的Navigation Bar

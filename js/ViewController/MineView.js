@@ -11,16 +11,26 @@ import GlobalStyles from "../res/styles/GlobalStyles";
 
 
 
-const THEME_COLOR = '#678'
-
-
-
+const THEME_COLOR = '#678';
 type Props = {};
 export default class MineView extends Component<Props> {
 
   //scrollView点击item
   onClick(menu) {
 
+    let RouteName = '';
+    let params = {};
+
+    switch (menu) {
+      case MORE_MENU.Tutorial:
+        RouteName = 'WebviewView';
+        params.title = '教程';
+        params.url = 'https://coding.m.imooc.com/classindex.html?cid=89';
+        break;
+    }
+    if (RouteName) {
+      NavigationUtil.goPage(params, RouteName);
+    }
   }
 
   //获取ScrollView的数据源
