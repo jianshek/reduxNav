@@ -23,6 +23,8 @@ import FavoriteDao from "../expand/dao/FavoriteDao";
 import FavoriteUtil from "../util/FavoriteUtil";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
+import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
+import ArrayUtil from "../util/ArrayUtil";
 
 
 
@@ -33,24 +35,30 @@ const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending);
 
 
 type Props = {};
-export default class TrendingView extends Component<Props> {
+class TrendingView extends Component<Props> {
 
   constructor(props) {
     super(props);
     this.state = {
       timeSpan: TimeSpans[0], //默认选择今天
     };
-    this.tabNames = ['JavaScript', 'C', 'vim', 'C++', 'go'];
+    const { onLoadLanguage } = this.props;
+    onLoadLanguage(FLAG_LANGUAGE.flag_language);
+    this.preKeys = [];  //之前topNavbar数据
   }
 
   //生成topTab
   _genTabs() {
-    const tabs = {}
-    this.tabNames.forEach((item, index) => {
-      tabs[`tab${index}`] = {
-        screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item} />,  //定义tab时给页面传递参数
-        navigationOptions: {
-          title: item,
+    const tabs = {};
+    const { keys } = this.props; //topNavbar数据
+    this.preKeys = keys;        //将topNavbar数据赋给preKeys
+    keys.forEach((item, index) => {
+      if (item.checked) {
+        tabs[`tab${index}`] = {
+          screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+          navigationOptions: {
+            title: item.name
+          }
         }
       }
     });
@@ -97,9 +105,8 @@ export default class TrendingView extends Component<Props> {
   }
 
   _tabNav() {
-
     //上方tab
-    if (!this.tabNav) {   //如果topnavbar存在就不再重新创建
+    if (!ArrayUtil.isEqual(this.preKeys, this.props.keys)) {  //如果topNavbar数组变化了
       this.tabNav = createAppContainer(createMaterialTopTabNavigator(
         this._genTabs(), {
           tabBarOptions: {
@@ -121,7 +128,7 @@ export default class TrendingView extends Component<Props> {
   }
 
   render() {
-
+    const {keys} = this.props;  //topNavbar数据
     //状态栏和navigationbar
     let statusBar = {
       backgroundColor: THEME_COLOR,
@@ -133,18 +140,29 @@ export default class TrendingView extends Component<Props> {
       style={{ backgroundColor: THEME_COLOR }}
     />;
     //topNavBar
-    const TabNavigator = this._tabNav()
+    const TabNavigator = keys.length ? this._tabNav() : null;
 
     return (
 
       <View style={{ flex: 1 }}>
         {navigationBar}
-        <TabNavigator />
+        {TabNavigator && <TabNavigator/>}
         {this.renderTrendingDialog()}
       </View>
     );
   }
 }
+
+const mapTrendingStateToProps = state => ({
+  keys: state.language.languages, //topNavBar数据
+});
+const mapTrendingDispatchToProps = dispatch => ({
+  onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapTrendingStateToProps, mapTrendingDispatchToProps)(TrendingView);
+
+
 const pageSize = 10;
 //每一个topTab的具体页面
 class TrendingTab extends Component {
@@ -183,7 +201,7 @@ class TrendingTab extends Component {
     EventBus.getInstance().removeListener(this.bottomTabSelectListener);
   }
 
-  loadData(loadMore,refreshFavorite) {
+  loadData(loadMore, refreshFavorite) {
     const { onRefreshTrending, onLoadMoreTrending, onFlushTrendingFavorite } = this.props;
     const store = this._store();
     const url = this.genFetchUrl(this.storeName);
