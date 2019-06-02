@@ -8,6 +8,7 @@ import { createReduxContainer } from 'react-navigation-redux-helpers'
 import WebviewView from '../ViewController/WebviewView'
 import AboutView from '../ViewController/about/AboutView'
 import AboutMeView from '../ViewController/about/AboutMeView'
+import CustomKeyView from './/../ViewController/CustomKeyView'
 
 
 export const rootCom = 'Init';//设置根路由
@@ -48,6 +49,12 @@ const MainNavigator = createStackNavigator({
     },
     AboutMeView: {
         screen: AboutMeView,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    CustomKeyView: {
+        screen: CustomKeyView,
         navigationOptions: {
             header: null,
         }

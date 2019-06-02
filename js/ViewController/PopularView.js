@@ -1,9 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
+ * 最热模块
  */
 
 import React, { Component } from 'react';
@@ -83,7 +79,8 @@ class PopularView extends Component<Props> {
           },
           indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
           labelStyle: styles.labelStyle,   //tab上的文字属性
-        }
+        },
+        lazy: true //懒加载,当点击这个tab的时候再加载数据
       }
 
     )): null;
