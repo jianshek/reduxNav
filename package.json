@@ -17,6 +17,7 @@
     "react-native-gesture-handler": "^1.2.1",
     "react-native-htmlview": "^0.14.0",
     "react-native-parallax-scroll-view": "^0.21.3",
+    "react-native-sortable-listview": "^0.2.8",
     "react-native-vector-icons": "^6.4.2",
     "react-native-webview": "^5.10.0",
     "react-navigation": "^3.9.1",
