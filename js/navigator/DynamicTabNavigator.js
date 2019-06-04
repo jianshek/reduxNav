@@ -123,20 +123,9 @@ class TabBarComponent extends Component {
     }
 
     render() {
-        const { routes, index } = this.props.navigation.state;  //获取tabbar数组和相应的index
-        if (routes[index].params) {                             //如果当前tabbar有params
-            const { theme } = routes[index].params;              //获取theme属性
-            if (theme && theme.updataTime > this.theme.updataTime) {  //新来的时间大于之前theme时间
-                this.theme = theme                              //把新来的theme赋值给theme
-            }
-        }
-
         return <BottomTabBar    //navigation组件tabbar
             {...this.props}
-            //navigation传过来的参数
-            // activeTintColor={this.theme.tintColor || this.props.activeTintColor}
-            //redux传过来的参数
-            activeTintColor={this.props.theme}
+            activeTintColor={this.props.theme.themeColor}
         />
     }
 }

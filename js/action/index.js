@@ -1,5 +1,5 @@
 //创建根action(不是必须)
-import { onThemeChange } from './theme'
+import { onThemeChange,onShowCustomThemeView } from './theme'
 import { onLoadPopularData, onLoadMorePopular,onFlushPopularFavorite } from './popular';
 import { onRefreshTrending, onLoadMoreTrending,onFlushTrendingFavorite } from './trending';
 import { onLoadFavoriteData } from './favorite';
@@ -9,6 +9,7 @@ import {onLoadLanguage} from './language';
 
 export default {
     onThemeChange,
+    onShowCustomThemeView,
     onLoadPopularData,
     onLoadMorePopular,
     onFlushPopularFavorite,

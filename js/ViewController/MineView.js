@@ -9,18 +9,19 @@ import NavigationBar from '../common/NavigationBar';
 import ViewUtil from "../util/ViewUtil";
 import GlobalStyles from "../res/styles/GlobalStyles";
 import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
-
+import {connect} from 'react-redux'
+import actions from "../action";
 
 
 const THEME_COLOR = '#678';
 type Props = {};
-export default class MineView extends Component<Props> {
+class MineView extends Component<Props> {
 
   //scrollView点击item
   onClick(menu) {
-
+    const {theme} = this.props;
     let RouteName = '';
-    let params = {};
+    let params = {theme}; //使用theme初始化,以便于下个页面能拿到theme
 
     switch (menu) {
       case MORE_MENU.Tutorial:
@@ -34,6 +35,10 @@ export default class MineView extends Component<Props> {
         break;
       case MORE_MENU.About_Author:
         RouteName = 'AboutMeView';
+        break;
+      case MORE_MENU.Custom_Theme:
+        const { onShowCustomThemeView } = this.props;
+        onShowCustomThemeView(true);    //弹出themeview
         break;
       case MORE_MENU.Sort_Key:
         RouteName = 'SortKeyView';
@@ -59,20 +64,22 @@ export default class MineView extends Component<Props> {
 
   //获取ScrollView的数据源
   getItem(menu) {
-    return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+    const {theme} = this.props;
+    return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
   }
 
   render() {
+    const {theme} = this.props;
     //状态栏和navigationbar
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
     let navigationBar =
       <NavigationBar
         title={'我的'}
         statusBar={statusBar}
-        style={{ backgroundColor: THEME_COLOR }}
+        style={theme.styles.navBar}
       />;
 
     return (
@@ -90,7 +97,7 @@ export default class MineView extends Component<Props> {
                 size={40}
                 style={{
                   marginRight: 10,
-                  color: { THEME_COLOR },
+                  color: theme.themeColor,
                 }}
               />
               <Text>GitHub Popular</Text>
@@ -101,7 +108,7 @@ export default class MineView extends Component<Props> {
               style={{
                 marginRight: 10,
                 alignSelf: 'center',
-                color: { THEME_COLOR },
+                color: theme.themeColor,
               }} />
           </TouchableOpacity>
           <View style={GlobalStyles.line} />
@@ -143,6 +150,17 @@ export default class MineView extends Component<Props> {
     );
   }
 }
+
+const mapStateToProps = state => ({ //state包含reducer中popular,trending等,
+  //state.theme是取出reducer中theme文件,state树有两个字段,theme和onShowCustomThemeView; state.theme.theme就是取出state树中的theme字段 
+  theme: state.theme.theme,   
+});
+
+const mapDispatchToProps = dispatch => ({
+  onShowCustomThemeView: (show) => dispatch(actions.onShowCustomThemeView(show)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MineView);
 
 const styles = StyleSheet.create({
   container: {

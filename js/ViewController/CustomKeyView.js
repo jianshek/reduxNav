@@ -164,7 +164,7 @@ class CustomKeyView extends Component<Props> {
             name={checked ? 'ios-checkbox' : 'md-square-outline'}
             size={20}
             style={{
-                color: THEME_COLOR,
+                color: theme.themeColor,
             }}/>
     }
 
@@ -180,18 +180,19 @@ class CustomKeyView extends Component<Props> {
     }
 
     render() {
+        const {theme} = this.params;
         let title = this.isRemoveKey ? '标签移除' : '自定义标签';
         title = this.params.flag === FLAG_LANGUAGE.flag_language ? '自定义语言' : title;
         let rightButtonTitle = this.isRemoveKey ? '移除' : '保存';
         let navigationBar = <NavigationBar
             title={title}
             leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
-            style={{ backgroundColor: THEME_COLOR }}
+            style={theme.styles.navBar}
             rightButton={ViewUtil.getRightButton(rightButtonTitle, () => this.onSave())}
         />;
         return <View
             style={styles.container}
-            topColor={THEME_COLOR}
+            topColor={theme.themeColor}
         >
             {navigationBar}
             <ScrollView>
