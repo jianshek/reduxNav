@@ -35,8 +35,10 @@ export default class AboutMeView extends Component<Props> {
     //点击了cell
     onClick(tab) {
         if (!tab) return;
+        const {theme}=this.params;
         if (tab.url) {
             NavigationUtil.goPage({
+                theme,
                 title: tab.title,
                 url: tab.url
             }, 'WebviewView');
@@ -67,11 +69,12 @@ export default class AboutMeView extends Component<Props> {
      * @param {*} key 
      */
     _item(data, isShow, key) {
+        const {theme} = this.params;
         return ViewUtil.getSettingItem(() => {  //点击cell的回调
             this.setState({
                 [key]: !this.state[key]     //根据传进来的key,获取相应的state
             });
-        }, data.name, THEME_COLOR, Ionicons, data.icon, isShow ? 'ios-arrow-down' : 'ios-arrow-forward')
+        }, data.name, theme.themeColor, Ionicons, data.icon, isShow ? 'ios-arrow-down' : 'ios-arrow-forward')
     }
 
      /**
@@ -82,12 +85,13 @@ export default class AboutMeView extends Component<Props> {
      */
     renderItems(dic, isShowAccount) {
         if (!dic) return null;
+        const {theme} = this.params;
         let views = [];
         for (let i in dic) {
             let title = isShowAccount ? dic[i].title + ':' + dic[i].account : dic[i].title;
             views.push(
                 <View key={i}>
-                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, THEME_COLOR)}
+                    {ViewUtil.getSettingItem(() => this.onClick(dic[i]), title, theme.themeColor)}
                     <View style={GlobalStyles.line}/>
                 </View>
             )

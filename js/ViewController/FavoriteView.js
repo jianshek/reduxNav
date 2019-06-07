@@ -18,29 +18,30 @@ const THEME_COLOR = '#678'
 
 
 type Props = {};
-export default class FavoriteView extends Component<Props> {
+class FavoriteView extends Component<Props> {
 
   render() {
 
+    const { theme } = this.props;
     //状态栏和navigationbar
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
     let navigationBar = <NavigationBar
       title={'最热'}
       statusBar={statusBar}
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
     />;
     const TabNavigator = createAppContainer(createMaterialTopTabNavigator({
       'Popular': {
-        screen: props => <FavoriteTabView {...props} flag={FLAG_STORAGE.flag_popular} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+        screen: props => <FavoriteTabView {...props} flag={FLAG_STORAGE.flag_popular} theme={theme} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
         navigationOptions: {
           title: '最热',
         },
       },
       'Trending': {
-        screen: props => <FavoriteTabView {...props} flag={FLAG_STORAGE.flag_trending} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+        screen: props => <FavoriteTabView {...props} flag={FLAG_STORAGE.flag_trending} theme={theme} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
         navigationOptions: {
           title: '趋势',
         },
@@ -51,7 +52,7 @@ export default class FavoriteView extends Component<Props> {
           upperCaseLabel: false,//是否使标签大写，默认为true
           scrollEnabled: false, //不可滚动,topnavbar可平分屏幕宽度
           style: {
-            backgroundColor: THEME_COLOR,//TabBar 的背景颜色
+            backgroundColor: theme.themeColor,//TabBar 的背景颜色
             height: 30//fix 开启scrollEnabled后再Android上初次加载时闪烁问题
           },
           indicatorStyle: styles.indicatorStyle,//标签指示器的样式
@@ -69,6 +70,12 @@ export default class FavoriteView extends Component<Props> {
 
   }
 }
+
+const mapFavoriteStateToProps = state => ({
+  theme: state.theme.theme,
+});
+//注意：connect只是个function，并不应定非要放在export后面
+export default connect(mapFavoriteStateToProps)(FavoriteView);
 
 class FavoriteTab extends Component<Props> {
 
@@ -116,7 +123,7 @@ class FavoriteTab extends Component<Props> {
 
   onFavorite(item, isFavorite) {
     FavoriteUtil.onFavorite(this.favoriteDao, item, isFavorite, this.props.flag); //更改本地数据
-    if (this.storeName === FLAG_STORAGE.flag_popular) {  
+    if (this.storeName === FLAG_STORAGE.flag_popular) {
       EventBus.getInstance().fireEvent(EventTypes.favorite_changed_popular); //发送通知,最热模块收藏状态有改变
     } else {
       EventBus.getInstance().fireEvent(EventTypes.favoriteChanged_trending);  //发送通知,趋势模块收藏状态有改变
@@ -124,13 +131,16 @@ class FavoriteTab extends Component<Props> {
   }
 
   renderItem(data) {
+    const { theme } = this.props;
     const item = data.item;
     //使用PopularItem还是TrendingItem
     const Item = this.storeName === FLAG_STORAGE.flag_popular ? PopularItem : TrendingItem;
     return <Item
+      theme={theme}
       projectModel={item}
       onSelect={(callback) => {
         NavigationUtil.goPage({
+          theme,
           projectModel: item,
           flag: this.storeName,
           callback,
@@ -142,6 +152,7 @@ class FavoriteTab extends Component<Props> {
 
   render() {
     let store = this._store();
+    const { theme } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
@@ -151,9 +162,9 @@ class FavoriteTab extends Component<Props> {
           refreshControl={
             <RefreshControl
               title={'Loading'}
-              titleColor={'red'}
-              colors={['red']}
-              tintColor={'red'}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
+              tintColor={theme.themeColor}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData(true)}
             />

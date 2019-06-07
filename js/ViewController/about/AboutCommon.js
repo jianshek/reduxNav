@@ -3,15 +3,15 @@
  */
 
 import React from 'react';
-import {DeviceInfo,View, Text, Image, Dimensions, StyleSheet, Platform} from "react-native";
+import { DeviceInfo, View, Text, Image, Dimensions, StyleSheet, Platform } from "react-native";
 import BackPressComponent from "../../common/BackPressComponent";
 import NavigationUtil from "../../navigator/NavigationUtil";
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
-import GlobalStyles from '../../res/styles/GlobalStyles'
+import GlobalStyles from '../../res/styles/GlobalStyles'    //下拉放大头部view
 import ViewUtil from "../../util/ViewUtil";
 
 //关于页面还是关于我的页面
-export const FLAG_ABOUT = {flag_about: 'about', flag_about_me: 'about_me'};
+export const FLAG_ABOUT = { flag_about: 'about', flag_about_me: 'about_me' };
 const THEME_COLOR = '#678';
 
 export default class AboutCommon {
@@ -19,7 +19,7 @@ export default class AboutCommon {
     constructor(props, updateState) {
         this.props = props;
         this.updateState = updateState;
-        this.backPress = new BackPressComponent({backPress: () => this.onBackPress()});
+        this.backPress = new BackPressComponent({ backPress: () => this.onBackPress() });
     }
 
     onBackPress() {
@@ -53,32 +53,32 @@ export default class AboutCommon {
     }
 
     onShare() {
-        
+
     }
 
     getParallaxRenderConfig(params) {
         let config = {};
-        let avatar = typeof(params.avatar) === 'string' ? {uri: params.avatar} : params.avatar;
+        let avatar = typeof (params.avatar) === 'string' ? { uri: params.avatar } : params.avatar;
         config.renderBackground = () => (
             <View key="background">
                 <Image source={{
                     uri: params.backgroundImg,
                     width: window.width,
                     height: PARALLAX_HEADER_HEIGHT
-                }}/>
+                }} />
                 <View style={{
                     position: 'absolute',
                     top: 0,
                     width: window.width,
                     backgroundColor: 'rgba(0,0,0,.4)',
                     height: PARALLAX_HEADER_HEIGHT
-                }}/>
+                }} />
             </View>
         );
         config.renderForeground = () => (
             <View key="parallax-header" style={styles.parallaxHeader}>
                 <Image style={styles.avatar}
-                       source={avatar}/>
+                    source={avatar} />
                 <Text style={styles.sectionSpeakerText}>
                     {params.name}
                 </Text>
@@ -103,10 +103,11 @@ export default class AboutCommon {
     }
 
     render(contentView, params) {
+        const { theme } = this.props;
         const renderConfig = this.getParallaxRenderConfig(params);
         return (
             <ParallaxScrollView
-                backgroundColor={THEME_COLOR}                           //背景色
+                backgroundColor={theme.themeColor}                           //背景色
                 contentBackgroundColor={GlobalStyles.backgroundColor}   //内容背景色
                 parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}           //内容高度
                 stickyHeaderHeight={STICKY_HEADER_HEIGHT}               //能上拉到的最小高度
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     stickySection: {
         height: STICKY_HEADER_HEIGHT,
         alignItems: 'center',
-        paddingTop:TOP
+        paddingTop: TOP
     },
     stickySectionText: {
         color: 'white',
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop:TOP
+        paddingTop: TOP
     },
     fixedSectionText: {
         color: '#999',

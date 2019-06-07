@@ -26,7 +26,6 @@ export default class AboutView extends Component<Props> {
     }
 
     onClick(menu) {
-
         let RoutseName, params = this.params;
         switch (menu) {
             case MORE_MENU.Tutorial:
@@ -59,7 +58,7 @@ export default class AboutView extends Component<Props> {
 
     getItem(menu) {
         const {theme} = this.params;
-        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, THEME_COLOR);
+        return ViewUtil.getMenuItem(() => this.onClick(menu), menu, theme.themeColor);
     }
 
     render() {

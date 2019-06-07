@@ -46,12 +46,12 @@ class TrendingView extends Component<Props> {
   //生成topTab
   _genTabs() {
     const tabs = {};
-    const { keys } = this.props; //topNavbar数据
+    const { keys, theme } = this.props; //topNavbar数据
     this.preKeys = keys;        //将topNavbar数据赋给preKeys
     keys.forEach((item, index) => {
       if (item.checked) {
         tabs[`tab${index}`] = {
-          screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
+          screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item.name} theme={theme} />,//初始化Component时携带默认参数 @https://github.com/react-navigation/react-navigation/issues/2392
           navigationOptions: {
             title: item.name
           }
@@ -102,7 +102,10 @@ class TrendingView extends Component<Props> {
 
   _tabNav() {
     //上方tab
-    if (!ArrayUtil.isEqual(this.preKeys, this.props.keys)) {  //如果topNavbar数组变化了
+    const { theme } = this.props;
+    // if (!ArrayUtil.isEqual(this.preKeys, this.props.keys)) {  //如果topNavbar数组变化了
+    if (theme !== this.theme || !this.tabNav || !ArrayUtil.isEqual(this.preKeys, this.props.keys)) {//优化效率：根据需要选择是否重新创建建TabNavigator，通常tab改变后才重新创建
+      this.theme = theme;
       this.tabNav = createAppContainer(createMaterialTopTabNavigator(
         this._genTabs(), {
           tabBarOptions: {
@@ -110,7 +113,7 @@ class TrendingView extends Component<Props> {
             upperCaseLabel: false, //默认文字大写
             scrollEnabled: true, //可滚动
             style: {
-              backgroundColor: '#678',
+              backgroundColor: theme.themeColor,
               height: 30,
             },
             indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
@@ -125,16 +128,16 @@ class TrendingView extends Component<Props> {
   }
 
   render() {
-    const {keys} = this.props;  //topNavbar数据
+    const { keys, theme } = this.props;  //topNavbar数据
     //状态栏和navigationbar
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
     let navigationBar = <NavigationBar
       titleView={this.renderTitleView()}
       statusBar={statusBar}
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
     />;
     //topNavBar
     const TabNavigator = keys.length ? this._tabNav() : null;
@@ -143,7 +146,7 @@ class TrendingView extends Component<Props> {
 
       <View style={{ flex: 1 }}>
         {navigationBar}
-        {TabNavigator && <TabNavigator/>}
+        {TabNavigator && <TabNavigator />}
         {this.renderTrendingDialog()}
       </View>
     );
@@ -152,6 +155,7 @@ class TrendingView extends Component<Props> {
 
 const mapTrendingStateToProps = state => ({
   keys: state.language.languages, //topNavBar数据
+  theme: state.theme.theme,
 });
 const mapTrendingDispatchToProps = dispatch => ({
   onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
@@ -243,10 +247,13 @@ class TrendingTab extends Component {
 
   renderItem(data) {
     const item = data.item;
+    const { theme } = this.props;
     return <TrendingItem
       projectModel={item}
+      theme={theme}
       onSelect={(callBack) => {
         NavigationUtil.goPage({
+          theme,
           projectModel: item,
           flag: FLAG_STORAGE.flag_trending,
           callBack      //baseItem的setFavoriteState函数
@@ -269,6 +276,7 @@ class TrendingTab extends Component {
 
   render() {
     let store = this._store();
+    const { theme } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
@@ -278,11 +286,11 @@ class TrendingTab extends Component {
           refreshControl={
             <RefreshControl
               title={'loading'}
-              titleColor={'red'}
-              colors={['red']}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData()}
-              tintColor={'red'}
+              tintColor={theme.themeColor}
             />
           }
           ListFooterComponent={() => this.genIndicator()} //上拉加载更多控件

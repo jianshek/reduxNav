@@ -100,12 +100,13 @@ export default class DetailView extends Component<Props> {
   }
 
   render() {
+    const {theme} = this.params;
     const titleLayoutStyle = this.state.title.length > 20 ? { paddingRight: 30 } : null;
     let navigationBar = <NavigationBar
       leftButton={ViewUtil.getLeftBackButton(() => this.onBack())}
       title={this.state.title}
       titleLayoutStyle={titleLayoutStyle}           //文字过长留空隙
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
       rightButton={this.renderRightButton()}
     />;
 
