@@ -5,7 +5,7 @@ import popular from './popular'
 import trending from './trending'
 import favorite from './favorite'
 import language from './language'
-
+import search from './search'
 
 
 //1.指定默认state
@@ -31,6 +31,7 @@ const index = combineReducers({
     trending: trending,
     favorite:favorite,
     language: language,
+    search:search,
 });
 
 export default index;

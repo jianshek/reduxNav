@@ -4,6 +4,7 @@ import { onLoadPopularData, onLoadMorePopular,onFlushPopularFavorite } from './p
 import { onRefreshTrending, onLoadMoreTrending,onFlushTrendingFavorite } from './trending';
 import { onLoadFavoriteData } from './favorite';
 import {onLoadLanguage} from './language';
+import {onSearch, onLoadMoreSearch, onSearchCancel} from './search';
 
 
 
@@ -18,4 +19,7 @@ export default {
     onLoadFavoriteData,
     onFlushTrendingFavorite,
     onLoadLanguage,
+    onSearch,
+    onLoadMoreSearch,
+    onSearchCancel,
 }

@@ -10,6 +10,7 @@ import AboutView from '../ViewController/about/AboutView'
 import AboutMeView from '../ViewController/about/AboutMeView'
 import CustomKeyView from '../ViewController/CustomKeyView'
 import SortKeyView from '../ViewController/SortKeyView'
+import SearchView from '../ViewController/SearchView'
 
 
 export const rootCom = 'Init';//设置根路由
@@ -62,6 +63,12 @@ const MainNavigator = createStackNavigator({
     },
     SortKeyView: {
         screen: SortKeyView,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    SearchView: {
+        screen: SearchView,
         navigationOptions: {
             header: null,
         }

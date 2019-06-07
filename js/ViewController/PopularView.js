@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, ActivityIndicator, StyleSheet, Text, View, Button, FlatList, RefreshControl, ListFooterComponent } from 'react-native';
+import { Platform, ActivityIndicator, StyleSheet, Text, View, Button, FlatList, RefreshControl, ListFooterComponent,TouchableOpacity } from 'react-native';
 import NavigationUtil from '../navigator/NavigationUtil'
 import { createMaterialTopTabNavigator, createAppContainer } from "react-navigation";
 import { connect } from 'react-redux'
@@ -16,8 +16,8 @@ import FavoriteDao from "../expand/dao/FavoriteDao";
 import FavoriteUtil from "../util/FavoriteUtil";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
-import {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
-
+import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -32,40 +32,62 @@ class PopularView extends Component<Props> {
 
   constructor(props) {
     super(props);
-    const {onLoadLanguage} = this.props;
+    const { onLoadLanguage } = this.props;
     onLoadLanguage(FLAG_LANGUAGE.flag_key); //请求topNavBar数据
   }
 
   //生成topTab
   _genTabs() {
     const tabs = {}
-    const {keys} = this.props;  //topNavBar数据
+    const { keys, theme } = this.props;  //topNavBar数据
     keys.forEach((item, index) => {
       if (item.checked) {
-          tabs[`tab${index}`] = {
-              screen: props => <PopularTabPage {...props} tabLabel={item.name} />,
-              navigationOptions: {
-                  title: item.name
-              }
+        tabs[`tab${index}`] = {
+          screen: props => <PopularTabPage {...props} tabLabel={item.name} theme={theme} />,
+          navigationOptions: {
+            title: item.name
           }
+        }
       }
-  });
-  return tabs;
+    });
+    return tabs;
+  }
+
+  //右上角搜索按钮
+  renderRightButton() {
+    const { theme } = this.props;
+    return <TouchableOpacity
+      onPress={() => {
+        NavigationUtil.goPage({ theme }, 'SearchView')
+      }}
+    >
+      <View style={{ padding: 5, marginRight: 8 }}>
+        <Ionicons
+          name={'ios-search'}
+          size={24}
+          style={{
+            marginRight: 8,
+            alignSelf: 'center',
+            color: 'white',
+          }} />
+      </View>
+    </TouchableOpacity>
   }
 
   render() {
-    const {keys} = this.props;  //topNavBar数据
+    const { keys, theme } = this.props;  //topNavBar数据
     //状态栏和navigationbar
     let statusBar = {
-      backgroundColor: THEME_COLOR,
+      backgroundColor: theme.themeColor,
       barStyle: 'light-content',
     };
     let navigationBar = <NavigationBar
       title={'最热'}
       statusBar={statusBar}
-      style={{ backgroundColor: THEME_COLOR }}
+      style={theme.styles.navBar}
+      rightButton={this.renderRightButton()}
     />;
-    
+
     //如果keys有数据就创建topNavbar,否则返回null
     const TabNavigator = keys.length ? createAppContainer(createMaterialTopTabNavigator(
       this._genTabs(), {
@@ -74,7 +96,7 @@ class PopularView extends Component<Props> {
           upperCaseLabel: false, //默认文字大写
           scrollEnabled: true, //可滚动
           style: {
-            backgroundColor: '#678',
+            backgroundColor: theme.themeColor,
             height: 30,      //开启scrollEnabled后再Android上初次加载时闪烁问题,给个固定高度
           },
           indicatorStyle: styles.indStyle, //指示器样式,就是tab下面那个横线
@@ -83,12 +105,12 @@ class PopularView extends Component<Props> {
         lazy: true //懒加载,当点击这个tab的时候再加载数据
       }
 
-    )): null;
+    )) : null;
 
     return (
       <View style={{ flex: 1 }}>
         {navigationBar}
-        {TabNavigator && <TabNavigator/>}
+        {TabNavigator && <TabNavigator />}
       </View>
     );
   }
@@ -96,6 +118,7 @@ class PopularView extends Component<Props> {
 
 const mapPopularStateToProps = state => ({
   keys: state.language.keys,  //topNavBar数据
+  theme: state.theme.theme,
 });
 const mapPopularDispatchToProps = dispatch => ({
   onLoadLanguage: (flag) => dispatch(actions.onLoadLanguage(flag))
@@ -176,10 +199,13 @@ class PopularTab extends Component {
 
   renderItem(data) {
     const item = data.item;
+    const { theme } = this.props;
     return <PopularItem
       projectModel={item}
+      theme={theme}
       onSelect={(callBack) => {
         NavigationUtil.goPage({
+          theme,
           flag: FLAG_STORAGE.flag_popular,
           projectModel: item,
           callBack,     //baseItem的setFavoriteState函数
@@ -202,6 +228,7 @@ class PopularTab extends Component {
 
   render() {
     let store = this._store();
+    const { theme } = this.props;
     return (
       <View style={styles.container}>
         <FlatList
@@ -211,11 +238,11 @@ class PopularTab extends Component {
           refreshControl={
             <RefreshControl
               title={'loading'}
-              titleColor={'red'}
-              colors={['red']}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData()}
-              tintColor={'red'}
+              tintColor={theme.themeColor}
             />
           }
           ListFooterComponent={() => this.genIndicator()} //上拉加载更多控件
