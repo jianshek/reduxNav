@@ -17,7 +17,8 @@ import FavoriteUtil from "../util/FavoriteUtil";
 import EventBus from "react-native-event-bus";
 import EventTypes from "../util/EventTypes";
 import { FLAG_LANGUAGE } from "../expand/dao/LanguageDao";
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AnalyticsUtil from "../util/AnalyticsUtil";  
 
 
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -58,6 +59,7 @@ class PopularView extends Component<Props> {
     const { theme } = this.props;
     return <TouchableOpacity
       onPress={() => {
+        AnalyticsUtil.onEvent("SearchButtonClick"); //友盟统计
         NavigationUtil.goPage({ theme }, 'SearchView')
       }}
     >

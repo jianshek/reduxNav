@@ -11,6 +11,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.soexample.invokenative.DplusReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
             new AsyncStoragePackage(),
             new VectorIconsPackage(),
-            new RNGestureHandlerPackage()
+            new RNGestureHandlerPackage(),
+              new DplusReactPackage()
       );
     }
 
@@ -49,5 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    RNUMConfigure.init(this, "5cfb0d654ca357387100075a", "Umeng", UMConfigure.DEVICE_TYPE_PHONE,
+            "");
   }
 }
