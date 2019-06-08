@@ -14,6 +14,8 @@ import ViewUtil from "../util/ViewUtil";
 import CheckBox from 'react-native-check-box'       //复选框
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import ArrayUtil from "../util/ArrayUtil";
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
+
 
 const THEME_COLOR = '#678'
 
@@ -190,7 +192,7 @@ class CustomKeyView extends Component<Props> {
             style={theme.styles.navBar}
             rightButton={ViewUtil.getRightButton(rightButtonTitle, () => this.onSave())}
         />;
-        return <View
+        return <SafeAreaViewPlus
             style={styles.container}
             topColor={theme.themeColor}
         >
@@ -198,7 +200,7 @@ class CustomKeyView extends Component<Props> {
             <ScrollView>
                 {this.renderView()}
             </ScrollView>
-        </View>
+        </SafeAreaViewPlus>
     }
 
 }

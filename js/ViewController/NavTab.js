@@ -6,6 +6,8 @@ import { NavigationActions, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import BackPressComponent from '../common/BackPressComponent'
 import CustomTheme from '../ViewController/CustomTheme';
+import SafeAreaViewPlus from "../common/SafeAreaViewPlus";
+
 
 
 type Props = {};
@@ -57,13 +59,16 @@ class NavTab extends Component<Props> {
     }
 
     render() {
+        const {theme} = this.props;
         //把外部导航器传给油条,使其能在配置的路由中跳转
         NavigationUtil.navigation = this.props.navigation;
         // return <DynamicTabNavigator/>
-        return <View style={{ flex: 1 }}>
+        return <SafeAreaViewPlus
+            topColor={theme.themeColor}
+        >
             <DynamicTabNavigator />
             {this.renderCustomThemeView()}
-        </View>
+        </SafeAreaViewPlus>
 
     }
 }

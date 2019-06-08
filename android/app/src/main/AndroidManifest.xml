@@ -21,6 +21,10 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      <!--适配全面屏,添加下面代码即可,不需要其他操作,2.2:屏幕最大高宽比-->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.2" />
     </application>
 
 </manifest>
