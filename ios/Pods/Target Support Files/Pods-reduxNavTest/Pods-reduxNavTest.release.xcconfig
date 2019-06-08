@@ -1,7 +1,9 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/UMCAnalytics" "${PODS_ROOT}/UMCCommon" "${PODS_ROOT}/UMCCommonLog/UMCommonLog" "${PODS_ROOT}/UMCSecurityPlugins/thirdparties"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/UMCAnalytics" "${PODS_ROOT}/UMCCommon" "${PODS_ROOT}/UMCCommonLog/UMCommonLog" "${PODS_ROOT}/UMCSecurityPlugins/thirdparties" "${PODS_ROOT}/UMCShare/UMShare" "${PODS_ROOT}/UMCShare/UMShare/UMSocialUI"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/UMCShare"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -ObjC -l"sqlite3" -l"z" -framework "CoreTelephony" -framework "SecurityEnvSDK" -framework "SystemConfiguration" -framework "UMAnalytics" -framework "UMCommon" -framework "UMCommonLog" -framework "UTDID"
+LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/Email" "${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/QQ" "${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/SMS" "${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/Sina" "${PODS_ROOT}/UMCShare/UMShare/SocialLibraries/WeChat"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"SocialEmail" -l"SocialQQ" -l"SocialSMS" -l"SocialSina" -l"SocialWeChat" -l"sqlite3" -l"z" -framework "CoreGraphics" -framework "CoreTelephony" -framework "MessageUI" -framework "Photos" -framework "QuartzCore" -framework "SecurityEnvSDK" -framework "SystemConfiguration" -framework "UMAnalytics" -framework "UMCommon" -framework "UMCommonLog" -framework "UMShare" -framework "UShareUI" -framework "UTDID"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

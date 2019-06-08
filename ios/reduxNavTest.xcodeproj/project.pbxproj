@@ -59,6 +59,7 @@
 		BCCDD56FF7974C1DAAA98353 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6FE64C4448344EEA4689EA6 /* libRNCAsyncStorage.a */; };
 		BF88CE9022AB4E140049306C /* UMAnalyticsModule.m in Sources */ = {isa = PBXBuildFile; fileRef = BF88CE6122AB4E130049306C /* UMAnalyticsModule.m */; };
 		BF88CE9122AB4E140049306C /* RNUMConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = BF88CE8E22AB4E130049306C /* RNUMConfigure.m */; };
+		BF89FD1122ABA6A200FBDF19 /* UMShareModule.m in Sources */ = {isa = PBXBuildFile; fileRef = BF89FCE422ABA6A200FBDF19 /* UMShareModule.m */; };
 		CA1BDDC36891483B9A9C5E13 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4FB247C2E9487988FA1224 /* libRNGestureHandler-tvOS.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
@@ -438,6 +439,8 @@
 		BF88CE8E22AB4E130049306C /* RNUMConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNUMConfigure.m; sourceTree = "<group>"; };
 		BF88CE8F22AB4E140049306C /* RNUMConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNUMConfigure.h; sourceTree = "<group>"; };
 		BF88CE9222AB4FD60049306C /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
+		BF89FCE422ABA6A200FBDF19 /* UMShareModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMShareModule.m; sourceTree = "<group>"; };
+		BF89FD1022ABA6A200FBDF19 /* UMShareModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMShareModule.h; sourceTree = "<group>"; };
 		CAA2C35EF296483891D9A36B /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		CCB6ABAC5FF54BFEB1766C4D /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		D6738D4789174414A96AAE75 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
@@ -593,6 +596,8 @@
 		13B07FAE1A68108700A75B9A /* reduxNavTest */ = {
 			isa = PBXGroup;
 			children = (
+				BF89FD1022ABA6A200FBDF19 /* UMShareModule.h */,
+				BF89FCE422ABA6A200FBDF19 /* UMShareModule.m */,
 				BF88CE8F22AB4E140049306C /* RNUMConfigure.h */,
 				BF88CE8E22AB4E130049306C /* RNUMConfigure.m */,
 				BF88CE8D22AB4E130049306C /* UMAnalyticsModule.h */,
@@ -1408,10 +1413,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-reduxNavTest/Pods-reduxNavTest-resources.sh",
 				"${PODS_ROOT}/UMCCommonLog/UMCommonLog/UMCommonLog.bundle",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMCommonLog.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1433,6 +1440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF89FD1122ABA6A200FBDF19 /* UMShareModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				BF88CE9122AB4E140049306C /* RNUMConfigure.m in Sources */,

@@ -8,7 +8,15 @@ target 'reduxNavTest' do
     pod 'UMCCommon'
     pod 'UMCSecurityPlugins'
     pod 'UMCCommonLog'
+    #  统计
     pod 'UMCAnalytics'
+    #  分享和登陆
+    pod 'UMCShare/UI'
+    pod 'UMCShare/Social/ReducedWeChat'
+    pod 'UMCShare/Social/ReducedQQ'
+    pod 'UMCShare/Social/ReducedSina'
+    pod 'UMCShare/Social/Email'
+    pod 'UMCShare/Social/SMS'
 
 end
 
