@@ -18,6 +18,8 @@ target 'reduxNavTest' do
     pod 'UMCShare/Social/Email'
     pod 'UMCShare/Social/SMS'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
 end
 
 

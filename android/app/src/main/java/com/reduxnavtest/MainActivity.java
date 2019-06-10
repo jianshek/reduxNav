@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 import com.umeng.analytics.MobclickAgent;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -19,7 +20,8 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        MobclickAgent.setSessionContinueMillis(1000*40);
+        SplashScreen.show(this); //开启启动图
+        MobclickAgent.setSessionContinueMillis(1000*40);   //友盟统计 
     }
 
     @Override
