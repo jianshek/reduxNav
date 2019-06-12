@@ -1,7 +1,10 @@
 # reduxNavTest
 
 #### 介绍
-react-navigation和redux为框架,githubAPP
+自己按照课程写的代码
+react-native:0.59.8
+react-redux:7.0.3
+react-navigation:3.9.1
 
 
 
@@ -14,19 +17,4 @@ react-navigation和redux为框架,githubAPP
 
 react-native run-ios 或  react-native run-android
 
-#### 参与贡献
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
