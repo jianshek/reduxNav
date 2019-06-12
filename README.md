@@ -12,7 +12,7 @@ react-navigation:3.9.1,
 
 #### 安装教程
 
- yarn start
+ npm install
 
 
 #### 使用说明
