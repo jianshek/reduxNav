@@ -6,7 +6,7 @@ react-native:0.59.8,
 react-redux:7.0.3,
 react-navigation:3.9.1,
 
-可运行,适合初学react-native的小白,或者没时间关注版本变化的大忙人~
+可运行,适合初学react-native的小白,或者没时间写代码的大忙人~
 
 
 
