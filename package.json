@@ -10,7 +10,7 @@
     "@react-native-community/async-storage": "^1.4.0",
     "GitHubTrending": "^3.0.1",
     "react": "16.8.3",
-    "react-native": "0.59.8",
+    "react-native": "0.62.3",
     "react-native-check-box": "^2.1.7",
     "react-native-easy-toast": "^1.2.0",
     "react-native-event-bus": "^1.0.0",
